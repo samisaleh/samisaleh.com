@@ -9,16 +9,16 @@ import '../styles/markdown.css';
 import 'brace/mode/markdown';
 import 'brace/theme/monokai';
 import { SiteContainer } from '../components/SiteContainer';
-import {markdownSample} from '../snippets';
+import { markdownSample } from '../snippets';
 
-interface IState {
+interface MarkdownEditorState {
     data: string;
 }
 
-export default class MarkdownEditor extends Component<{}, IState> {
+export default class MarkdownEditor extends Component<{}, MarkdownEditorState> {
     private currentData = markdownSample;
 
-    state: IState = {
+    public state: MarkdownEditorState = {
         data: this.currentData,
     };
 
@@ -29,7 +29,7 @@ export default class MarkdownEditor extends Component<{}, IState> {
         }
     };
 
-    render() {
+    public render() {
         return (
             <SiteContainer>
                 <div className={'editor--split'}>

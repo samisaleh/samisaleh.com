@@ -73,7 +73,7 @@
   "name": "sample-stack",
   "scripts": {
     "build": "webpack",
-    "lint": "eslint src/**/*.ts",
+    "lint": "eslint --fix src/**/*.{ts,tsx}",
     "postinstall": "node node_modules/husky/husky.js install",
     "pretty": "prettier --config .prettierrc.js --write '**/*.{ts,tsx}'",
     "start": "webpack-dev-server",

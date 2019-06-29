@@ -8,9 +8,9 @@ import { Annotation } from 'react-ace/types';
 import { Toaster, Popover, Menu, Button, Position, IToaster } from '@blueprintjs/core';
 import { SiteContainer } from '../components/SiteContainer';
 import { ReactNode } from 'react';
-import {jsonSample} from '../snippets';
+import { jsonSample } from '../snippets';
 
-interface IState {
+interface JsonEditorState {
     data: string;
 }
 
@@ -21,11 +21,11 @@ const toaster: IToaster = Toaster.create(
     document.body,
 );
 
-export default class JsonEditor extends Component<{}, IState> {
+export default class JsonEditor extends Component<{}, JsonEditorState> {
     private currentData = jsonSample;
     private errors: Annotation[] = [];
 
-    state: IState = {
+    public state: JsonEditorState = {
         data: this.currentData,
     };
 
@@ -78,9 +78,9 @@ export default class JsonEditor extends Component<{}, IState> {
             if (typeof data[key] !== 'string' && typeof data[key] !== 'boolean') {
                 if (Array.isArray(data[key])) {
                     if (typeof data[key][0] === 'object') {
-                        data[key].forEach((chunk: object) => newObj[key] = this.sortKeys(chunk))
+                        data[key].forEach((chunk: object) => (newObj[key] = this.sortKeys(chunk)));
                     } else {
-                        newObj[key] = data[key].sort((a: string | number, b: string| number) => {
+                        newObj[key] = data[key].sort((a: string | number, b: string | number) => {
                             if (typeof a === 'string' && typeof b === 'string') {
                                 return a.localeCompare(b);
                             } else if (typeof a === 'number' && typeof b === 'number') {
@@ -120,7 +120,7 @@ export default class JsonEditor extends Component<{}, IState> {
         </Popover>
     );
 
-    render() {
+    public render() {
         return (
             <SiteContainer navActions={this.actionMenu()}>
                 <div className={'editor--fullsize'}>

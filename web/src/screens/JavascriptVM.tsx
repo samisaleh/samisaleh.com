@@ -6,31 +6,31 @@ import AceEditor from 'react-ace';
 import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 import { SiteContainer } from '../components/SiteContainer';
-import {javascriptSample} from '../snippets';
+import { javascriptSample } from '../snippets';
 
-interface IState {
+interface JavascriptVMState {
     data: string;
     result: string[] | null;
     error: boolean;
 }
 
-export default class JavascriptVM extends Component<{}, IState> {
+export default class JavascriptVM extends Component<{}, JavascriptVMState> {
     private currentData = javascriptSample;
 
     private oldConsole: any = console;
 
-    state: IState = {
+    public state: JavascriptVMState = {
         data: this.currentData,
         result: ['Press control + enter to execute javascript code!'],
         error: false,
     };
 
-    componentDidMount(): void {
+    public componentDidMount(): void {
         // @ts-ignore
         console = this.consoleHack;
     }
 
-    componentWillUnmount(): void {
+    public componentWillUnmount(): void {
         console = this.oldConsole;
     }
 
@@ -69,7 +69,7 @@ export default class JavascriptVM extends Component<{}, IState> {
         }
     };
 
-    render() {
+    public render() {
         const { error, result } = this.state;
         return (
             <SiteContainer>
