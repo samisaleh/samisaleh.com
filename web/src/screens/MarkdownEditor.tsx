@@ -9,25 +9,14 @@ import '../styles/markdown.css';
 import 'brace/mode/markdown';
 import 'brace/theme/monokai';
 import { SiteContainer } from '../components/SiteContainer';
+import {markdownSample} from '../snippets';
 
 interface IState {
     data: string;
 }
 
 export default class MarkdownEditor extends Component<{}, IState> {
-    private currentData = `# Hello!
-
-Type something **here** to get *started*!
-
-1. list
-  1. nested
-- more stuff
-- even \`more\` ~~things~~ stuff
-
-
-\`\`\`
-sample code block
-\`\`\``;
+    private currentData = markdownSample;
 
     state: IState = {
         data: this.currentData,

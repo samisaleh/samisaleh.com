@@ -8,6 +8,7 @@ import { Annotation } from 'react-ace/types';
 import { Toaster, Popover, Menu, Button, Position, IToaster } from '@blueprintjs/core';
 import { SiteContainer } from '../components/SiteContainer';
 import { ReactNode } from 'react';
+import {jsonSample} from '../snippets';
 
 interface IState {
     data: string;
@@ -21,7 +22,7 @@ const toaster: IToaster = Toaster.create(
 );
 
 export default class JsonEditor extends Component<{}, IState> {
-    private currentData = '';
+    private currentData = jsonSample;
     private errors: Annotation[] = [];
 
     state: IState = {
@@ -52,7 +53,7 @@ export default class JsonEditor extends Component<{}, IState> {
         try {
             const parsedData = JSON.parse(this.currentData);
             this.setState({
-                data: JSON.stringify(parsedData, null, pretty ? 2 : 0),
+                data: JSON.stringify(parsedData, null, pretty ? 4 : 0),
             });
         } catch (err) {}
     };
@@ -76,7 +77,17 @@ export default class JsonEditor extends Component<{}, IState> {
         sortedKeys.forEach((key: string) => {
             if (typeof data[key] !== 'string' && typeof data[key] !== 'boolean') {
                 if (Array.isArray(data[key])) {
-                    newObj[key] = data[key].sort((a: string, b: string) => a.localeCompare(b));
+                    if (typeof data[key][0] === 'object') {
+                        data[key].forEach((chunk: object) => newObj[key] = this.sortKeys(chunk))
+                    } else {
+                        newObj[key] = data[key].sort((a: string | number, b: string| number) => {
+                            if (typeof a === 'string' && typeof b === 'string') {
+                                return a.localeCompare(b);
+                            } else if (typeof a === 'number' && typeof b === 'number') {
+                                return a - b;
+                            }
+                        });
+                    }
                 } else {
                     newObj[key] = this.sortKeys(data[key]);
                 }
@@ -91,7 +102,7 @@ export default class JsonEditor extends Component<{}, IState> {
         if (this.checkErrors()) return;
         const data = JSON.parse(this.currentData);
         const sorted = this.sortKeys(data);
-        this.setState({ data: JSON.stringify(sorted, null, 2) });
+        this.setState({ data: JSON.stringify(sorted, null, 4) });
     };
 
     private actionMenu = (): ReactNode => (
@@ -100,7 +111,7 @@ export default class JsonEditor extends Component<{}, IState> {
                 <Menu>
                     <Menu.Item onClick={this.minifyData} text="Minify" />
                     <Menu.Item onClick={this.prettyData} text="Pretty print" />
-                    <Menu.Item onClick={this.sortKeysRecursive} text="Sort Keys" />
+                    <Menu.Item onClick={this.sortKeysRecursive} text="Sort keys" />
                 </Menu>
             }
             position={Position.RIGHT}

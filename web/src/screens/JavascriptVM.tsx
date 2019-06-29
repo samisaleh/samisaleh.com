@@ -6,6 +6,7 @@ import AceEditor from 'react-ace';
 import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 import { SiteContainer } from '../components/SiteContainer';
+import {javascriptSample} from '../snippets';
 
 interface IState {
     data: string;
@@ -14,13 +15,8 @@ interface IState {
 }
 
 export default class JavascriptVM extends Component<{}, IState> {
-    private currentData = `// executes a function and returns your value - WIP
+    private currentData = javascriptSample;
 
-const numbers = [4,1,2,3,4,1,5,6,1];
-
-return [...new Set(numbers)]
-              .sort((a,b) => a - b )
-              .map(num => 'Mapped number ' + num)`;
     private oldConsole: any = console;
 
     state: IState = {
