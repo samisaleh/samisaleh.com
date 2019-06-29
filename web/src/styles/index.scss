@@ -6,15 +6,25 @@
 @import "~@blueprintjs/core/lib/scss/variables";
 
 
-html, body, #root, .section, .container  {
+html, body, #root, .section, .container, .site-container  {
     margin: 0;
     height: 100%;
+}
+
+.site-container {
     overflow: hidden;
+    .columns {
+        height: 100%;
+        .column {
+            overflow: auto;
+        }
+    }
 }
 
 .site-navbar {
     background-color: #272822;
     border-bottom: solid 2px #131410;
+    height: 50px;
 
     div a, a {
         color: $white;
@@ -22,15 +32,12 @@ html, body, #root, .section, .container  {
 }
 
 .editor--fullsize, .editor--split {
-    height: 100vh;
-    width: 100vw;
+    height: calc(100% - 50px);
 }
 
 .editor--split .columns,.editor--split .column {
-    height: 100%;
     margin: 0;
     padding: 0;
-    overflow: auto;
 }
 
 .js-output {

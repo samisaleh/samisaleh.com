@@ -9,7 +9,7 @@ interface SiteContainerProps {
 
 export const SiteContainer = (props: SiteContainerProps) => {
     return (
-        <div>
+        <div className={'site-container'}>
             <SiteNavbar navActions={props.navActions} />
             {props.children}
         </div>
