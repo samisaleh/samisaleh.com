@@ -1,2 +1,3 @@
 # mocha.opts
   --require ignore-styles
+  -r ts-node/register

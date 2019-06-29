@@ -9,7 +9,7 @@
     "build": "webpack",
     "lint": "eslint src/**/*.ts",
     "pretty": "prettier --config .prettierrc.js --write '**/*.{ts,tsx}'",
-    "test": "mocha -r ts-node/register 'test/**/*.spec.{ts,tsx}'"
+    "test": "mocha 'test/**/*.spec.{ts,tsx}'"
   },
   "husky": {
     "hooks": {
