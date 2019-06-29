@@ -1,0 +1,49 @@
+@import "~bulma/sass/utilities/_all";
+@import "~bulma/sass/grid/columns";
+
+@import "~@blueprintjs/core/lib/css/blueprint.css";
+@import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
+@import "~@blueprintjs/core/lib/scss/variables";
+
+
+html, body, #root, .section, .container  {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.site-navbar {
+    background-color: #272822;
+    border-bottom: solid 2px #131410;
+
+    div a, a {
+        color: $white;
+    }
+}
+
+.editor--fullsize, .editor--split {
+    height: 100vh;
+    width: 100vw;
+}
+
+.editor--split .columns,.editor--split .column {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+}
+
+.js-output {
+    background-color: #10110e;
+    color: #E6DB74;
+    ul {
+        margin: 0.75em 0;
+        padding: 0 1em;
+        list-style: square inside;
+    }
+}
+
+.js-error {
+    color: hsl(348, 100%, 61%);
+}
+

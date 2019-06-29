@@ -1,0 +1,83 @@
+{
+  "name": "sample-stack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "node node_modules/husky/husky.js install",
+    "start": "webpack-dev-server",
+    "build": "webpack",
+    "lint": "eslint src/**/*.ts",
+    "pretty": "prettier --config .prettierrc.js --write '**/*.{ts,tsx}'",
+    "test": "mocha -r ts-node/register 'test/**/*.spec.{ts,tsx}'"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && npm test"
+    }
+  },
+  "lint-staged": {
+    "resources/**/*.{js,ts}": [
+      "prettier --config .prettierrc.js --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/enzyme": "^3.9.4",
+    "@types/enzyme-adapter-react-16": "^1.0.5",
+    "@types/jsdom": "^12.2.4",
+    "@types/mocha": "^5.2.7",
+    "@types/react-router-dom": "^4.3.4",
+    "@typescript-eslint/eslint-plugin": "^1.10.2",
+    "@typescript-eslint/parser": "^1.10.3-alpha.13",
+    "awesome-typescript-loader": "^5.2.1",
+    "chai": "^4.2.0",
+    "chalk": "2.4.2",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^3.0.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "eslint": "^6.0.0",
+    "eslint-config-prettier": "^5.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "file-loader": "^4.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "husky": "2.4.1",
+    "ignore-styles": "^5.0.1",
+    "install": "^0.12.2",
+    "jsdom": "^15.1.1",
+    "lint-staged": "^8.2.1",
+    "mocha": "^6.1.4",
+    "node-sass": "^4.12.0",
+    "npm": "^6.9.2",
+    "prettier": "^1.18.2",
+    "r": "0.0.5",
+    "recursive-install": "1.4.0",
+    "sass-loader": "^7.1.0",
+    "source-map-loader": "^0.2.4",
+    "style-loader": "^0.23.1",
+    "ts-loader": "^6.0.4",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.2",
+    "webpack": "^4.35.0",
+    "webpack-cli": "^3.3.4",
+    "webpack-dev-server": "^3.7.2"
+  },
+  "dependencies": {
+    "@blueprintjs/core": "^3.16.2",
+    "@types/react": "^16.8.22",
+    "@types/react-dom": "^16.8.4",
+    "brace": "^0.11.1",
+    "bulma": "^0.7.5",
+    "bulma-toast": "^1.5.1",
+    "markdown-to-jsx": "^6.10.2",
+    "react": "^16.8.6",
+    "react-ace": "^7.0.2",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.1"
+  }
+}
