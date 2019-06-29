@@ -63,7 +63,7 @@
   },
   "license": "ISC",
   "lint-staged": {
-    "resources/**/*.{js,ts}": [
+    "**/*.{ts,tsx}": [
       "eslint --fix",
       "git add",
       "prettier --config .prettierrc.js --write"
