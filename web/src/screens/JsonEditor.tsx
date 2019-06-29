@@ -75,7 +75,7 @@ export default class JsonEditor extends Component<{}, JsonEditorState> {
             return a.localeCompare(b);
         });
         sortedKeys.forEach((key: string) => {
-            if (typeof data[key] !== 'string' && typeof data[key] !== 'boolean') {
+            if (typeof data[key] !== 'string' && typeof data[key] !== 'boolean' && data[key] !== null) {
                 if (Array.isArray(data[key])) {
                     if (typeof data[key][0] === 'object') {
                         data[key].forEach((chunk: object) => (newObj[key] = this.sortKeys(chunk)));
