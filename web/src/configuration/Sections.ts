@@ -1,4 +1,4 @@
-interface Section {
+export interface Section {
     title: string;
     path: string;
     description: string;

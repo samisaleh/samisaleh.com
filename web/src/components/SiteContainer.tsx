@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { SiteNavbar } from './SiteNavbar';
-import { ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 
 interface SiteContainerProps {
     children: ReactNode;
     navActions?: ReactNode;
 }
 
-export const SiteContainer = (props: SiteContainerProps) => {
+export const SiteContainer = (props: SiteContainerProps): ReactElement => {
     return (
         <div className={'site-container'}>
             <SiteNavbar navActions={props.navActions} />

@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { Component } from 'react';
+import { Component, ReactNode } from 'react';
 import AceEditor from 'react-ace';
 
-// @ts-ignore
 import * as Markdown from 'markdown-to-jsx';
 import '../styles/markdown.css';
 
@@ -16,20 +15,11 @@ interface MarkdownEditorState {
 }
 
 export default class MarkdownEditor extends Component<{}, MarkdownEditorState> {
-    private currentData = markdownSample;
-
     public state: MarkdownEditorState = {
-        data: this.currentData,
+        data: markdownSample,
     };
 
-    private onChange = (data: string) => {
-        const newData = data.trim();
-        if (newData !== this.state.data) {
-            this.setState({ data: newData });
-        }
-    };
-
-    public render() {
+    public render(): ReactNode {
         return (
             <SiteContainer>
                 <div className={'editor--split'}>
@@ -53,4 +43,11 @@ export default class MarkdownEditor extends Component<{}, MarkdownEditorState> {
             </SiteContainer>
         );
     }
+
+    private onChange = (data: string): void => {
+        const newData = data.trim();
+        if (newData !== this.state.data) {
+            this.setState({ data: newData });
+        }
+    };
 }

@@ -21,22 +21,46 @@ const toaster: IToaster = Toaster.create(
     document.body,
 );
 
+const tabWidth = 4;
+const ZERO = 0;
+
 export default class JsonEditor extends Component<{}, JsonEditorState> {
+    public state: JsonEditorState = {
+        data: jsonSample,
+    };
+
     private currentData = jsonSample;
     private errors: Annotation[] = [];
 
-    public state: JsonEditorState = {
-        data: this.currentData,
-    };
+    public render(): ReactNode {
+        return (
+            <SiteContainer navActions={this.actionMenu()}>
+                <div className={'editor--fullsize'}>
+                    <AceEditor
+                        mode="json"
+                        theme="monokai"
+                        onChange={this.onChange}
+                        value={this.state.data}
+                        fontSize={'18px'}
+                        onValidate={this.validate}
+                        width={'100%'}
+                        height={'100%'}
+                        editorProps={{ $blockScrolling: Infinity }}
+                        wrapEnabled={true}
+                    />
+                </div>
+            </SiteContainer>
+        );
+    }
 
     private checkErrors = (): boolean => {
-        if (this.errors.length !== 0 || !this.currentData) {
+        if (this.errors.length !== ZERO || !this.currentData) {
             const isEmpty = !this.currentData && 'Please enter some JSON!';
             toaster.show({
                 message:
                     isEmpty ||
                     this.errors
-                        .map(error => {
+                        .map((error): string => {
                             return `${error.row}:${error.column} - ${error.text}`;
                         })
                         .join('\n'),
@@ -53,7 +77,7 @@ export default class JsonEditor extends Component<{}, JsonEditorState> {
         try {
             const parsedData = JSON.parse(this.currentData);
             this.setState({
-                data: JSON.stringify(parsedData, null, pretty ? 4 : 0),
+                data: JSON.stringify(parsedData, null, pretty ? tabWidth : ZERO),
             });
         } catch (err) {}
     };
@@ -69,18 +93,23 @@ export default class JsonEditor extends Component<{}, JsonEditorState> {
         this.currentData = data;
     };
 
+    // eslint-disable-next-line
     private sortKeys = (data: any): object => {
+        // eslint-disable-next-line
         const newObj: any = {};
-        const sortedKeys = Object.keys(data).sort((a, b) => {
+        const sortedKeys = Object.keys(data).sort((a, b): number => {
             return a.localeCompare(b);
         });
-        sortedKeys.forEach((key: string) => {
+        sortedKeys.forEach((key: string): void => {
             if (typeof data[key] !== 'string' && typeof data[key] !== 'boolean' && data[key] !== null) {
                 if (Array.isArray(data[key])) {
-                    if (typeof data[key][0] === 'object') {
-                        data[key].forEach((chunk: object) => (newObj[key] = this.sortKeys(chunk)));
+                    if (typeof data[key][ZERO] === 'object') {
+                        data[key].forEach((chunk: object): object => (newObj[key] = this.sortKeys(chunk)));
                     } else {
-                        newObj[key] = data[key].sort((a: string | number, b: string | number) => {
+                        newObj[key] = data[key].sort((a: string | number, b: string | number):
+                            | number
+                            | string
+                            | undefined => {
                             if (typeof a === 'string' && typeof b === 'string') {
                                 return a.localeCompare(b);
                             } else if (typeof a === 'number' && typeof b === 'number') {
@@ -102,7 +131,7 @@ export default class JsonEditor extends Component<{}, JsonEditorState> {
         if (this.checkErrors()) return;
         const data = JSON.parse(this.currentData);
         const sorted = this.sortKeys(data);
-        this.setState({ data: JSON.stringify(sorted, null, 4) });
+        this.setState({ data: JSON.stringify(sorted, null, tabWidth) });
     };
 
     private actionMenu = (): ReactNode => (
@@ -119,25 +148,4 @@ export default class JsonEditor extends Component<{}, JsonEditorState> {
             <Button intent={'primary'} text="Format JSON" />
         </Popover>
     );
-
-    public render() {
-        return (
-            <SiteContainer navActions={this.actionMenu()}>
-                <div className={'editor--fullsize'}>
-                    <AceEditor
-                        mode="json"
-                        theme="monokai"
-                        onChange={this.onChange}
-                        value={this.state.data}
-                        fontSize={'18px'}
-                        onValidate={this.validate}
-                        width={'100%'}
-                        height={'100%'}
-                        editorProps={{ $blockScrolling: Infinity }}
-                        wrapEnabled={true}
-                    />
-                </div>
-            </SiteContainer>
-        );
-    }
 }

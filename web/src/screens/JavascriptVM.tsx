@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { Component } from 'react';
+import { Component, KeyboardEvent, ReactNode } from 'react';
 import AceEditor from 'react-ace';
 
-// @ts-ignore
 import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 import { SiteContainer } from '../components/SiteContainer';
@@ -15,61 +14,29 @@ interface JavascriptVMState {
 }
 
 export default class JavascriptVM extends Component<{}, JavascriptVMState> {
-    private currentData = javascriptSample;
-
-    private oldConsole: any = console;
-
     public state: JavascriptVMState = {
-        data: this.currentData,
+        data: javascriptSample,
         result: ['Press control + enter to execute javascript code!'],
         error: false,
     };
 
+    private oldConsole = console;
+
+    private consoleHack = {
+        log: (value: string): string => value,
+        warn: (value: string): string => value,
+        error: (value: string): string => value,
+    };
+
     public componentDidMount(): void {
-        // @ts-ignore
-        console = this.consoleHack;
+        (console as unknown) = this.consoleHack;
     }
 
     public componentWillUnmount(): void {
         console = this.oldConsole;
     }
 
-    private consoleHack = {
-        log: (value: string) => value,
-        warn: (value: string) => value,
-        error: (value: string) => value,
-    };
-
-    private checkExecute = (event: any) => {
-        if (event.ctrlKey && event.key === 'Enter') {
-            this.execute();
-        }
-    };
-
-    private execute = () => {
-        try {
-            let result = Function('"use strict";' + this.state.data)();
-            result = typeof result === 'object' ? result : [result];
-            this.setState({
-                result,
-                error: false,
-            });
-        } catch (err) {
-            this.setState({
-                result: [err.message],
-                error: true,
-            });
-        }
-    };
-
-    private onChange = (data: string) => {
-        const newData = data.trim();
-        if (newData !== this.state.data) {
-            this.setState({ data: newData });
-        }
-    };
-
-    public render() {
+    public render(): ReactNode {
         const { error, result } = this.state;
         return (
             <SiteContainer>
@@ -92,7 +59,9 @@ export default class JavascriptVM extends Component<{}, JavascriptVMState> {
                             <ul className={error ? 'js-error' : ''}>
                                 {result &&
                                     result.map &&
-                                    result.map(result => result && <li key={result}>{result.toString()}</li>)}
+                                    result.map(
+                                        (result): ReactNode => result && <li key={result}>{result.toString()}</li>,
+                                    )}
                             </ul>
                         </div>
                     </div>
@@ -100,4 +69,33 @@ export default class JavascriptVM extends Component<{}, JavascriptVMState> {
             </SiteContainer>
         );
     }
+
+    private checkExecute = (event: KeyboardEvent): void => {
+        if (event.ctrlKey && event.key === 'Enter') {
+            this.execute();
+        }
+    };
+
+    private execute = (): void => {
+        try {
+            let result = Function('"use strict";' + this.state.data)();
+            result = typeof result === 'object' ? result : [result];
+            this.setState({
+                result,
+                error: false,
+            });
+        } catch (err) {
+            this.setState({
+                result: [err.message],
+                error: true,
+            });
+        }
+    };
+
+    private onChange = (data: string): void => {
+        const newData = data.trim();
+        if (newData !== this.state.data) {
+            this.setState({ data: newData });
+        }
+    };
 }

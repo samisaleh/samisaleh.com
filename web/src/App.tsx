@@ -4,8 +4,9 @@ import Home from './screens/Home';
 import JsonEditor from './screens/JsonEditor';
 import MarkdownEditor from './screens/MarkdownEditor';
 import JavascriptVM from './screens/JavascriptVM';
+import { ReactElement } from 'react';
 
-export default function App() {
+export default function App(): ReactElement {
     return (
         <BrowserRouter>
             <Switch>
