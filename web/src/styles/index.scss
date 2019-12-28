@@ -1,6 +1,11 @@
 @import '~semantic-ui-css/semantic.min.css';
+@import 'variables';
 
-html, body, #root {
+html, body, #root, .page-container {
     margin: 0;
     height: 100%;
+}
+
+.nav-spacer {
+    height: $nav-spacer;
 }

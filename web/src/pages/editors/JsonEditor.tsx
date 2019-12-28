@@ -2,16 +2,16 @@ import React from 'react';
 import { Component } from 'react';
 import AceEditor from 'react-ace';
 import 'brace/mode/json';
-import 'brace/theme/monokai';
+import 'brace/theme/clouds';
 import 'brace/ext/searchbox';
 import { Annotation } from 'react-ace/types';
 import { ReactNode } from 'react';
 import { jsonSample } from '../../snippets';
-import { SiteNavbar } from '../../components/SiteNavbar';
 import { Button, Dropdown } from 'semantic-ui-react';
 import { SemanticToastContainer, toast } from 'react-semantic-toasts';
 import 'react-semantic-toasts/styles/react-semantic-alert.css';
 import styles from '../../styles/Editor.module.scss';
+import { PageContainer } from '../../components';
 
 interface JsonEditorState {
     data: string;
@@ -30,14 +30,13 @@ export class JsonEditor extends Component<{}, JsonEditorState> {
 
     public render(): ReactNode {
         return (
-            <>
+            <PageContainer navActions={this.actionMenu()} withNavSpacer={false}>
                 <SemanticToastContainer position={'top-center'} />
-                <SiteNavbar navActions={this.actionMenu()} />
                 <div className={styles.editor}>
                     <AceEditor
                         name={'json-editor'}
                         mode="json"
-                        theme="monokai"
+                        theme="clouds"
                         onChange={this.onChange}
                         value={this.state.data}
                         fontSize={'18px'}
@@ -48,7 +47,7 @@ export class JsonEditor extends Component<{}, JsonEditorState> {
                         wrapEnabled={true}
                     />
                 </div>
-            </>
+            </PageContainer>
         );
     }
 

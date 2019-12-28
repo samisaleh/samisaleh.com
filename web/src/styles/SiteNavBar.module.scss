@@ -3,12 +3,12 @@
 .site-nav-bar {
   display: flex;
   align-items: center;
-  padding: 15px;
+  padding: $padding-1;
   background: #ffffff;
   height: $nav-height;
-  border-bottom: 3px solid #a333c8;
+  border-bottom: $main-border-thickness solid $main-border-color;
 
   .item {
-    margin-right: 15px;
+    margin-right: $margin-1;
   }
 }

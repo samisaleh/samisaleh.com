@@ -5,6 +5,7 @@ import styles from '../../styles/Home.module.scss';
 import { SemanticCOLORS } from 'semantic-ui-react/dist/commonjs/generic';
 import { editors } from '../editors';
 import { Link } from 'react-router-dom';
+import { sketchPages } from '../simple-sketch';
 
 const availableColors: SemanticCOLORS[] = [
     'red',
@@ -27,7 +28,7 @@ const randomFill = function(): SemanticCOLORS {
 };
 
 export const Home = function(): ReactElement {
-    const availablePages = [...editors];
+    const availablePages = [...editors, ...sketchPages];
     const itemsSet = availablePages.map(page => ({
         content: (
             <Item.Content verticalAlign={'middle'}>
@@ -54,10 +55,10 @@ export const Home = function(): ReactElement {
             <Container>
                 <Grid stackable={true} textAlign={'center'} centered={true} columns={2}>
                     <Grid.Column>
-                        <Item.Group relaxed={true} items={itemsSet} />
+                        <Item.Group className={styles.homeItem} relaxed={true} items={itemsSet} />
                     </Grid.Column>
                     <Grid.Column>
-                        <Item.Group relaxed={true} items={itemsSet2} />
+                        <Item.Group className={styles.homeItem} relaxed={true} items={itemsSet2} />
                     </Grid.Column>
                 </Grid>
             </Container>

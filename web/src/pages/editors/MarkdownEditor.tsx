@@ -7,10 +7,10 @@ import '../../styles/markdown.css';
 import styles from '../../styles/Editor.module.scss';
 
 import 'brace/mode/markdown';
-import 'brace/theme/monokai';
+import 'brace/theme/clouds';
 import 'brace/ext/searchbox';
 import { markdownSample } from '../../snippets';
-import { SiteNavbar } from '../../components/SiteNavbar';
+import { PageContainer } from '../../components';
 
 interface MarkdownEditorState {
     data: string;
@@ -23,13 +23,12 @@ export class MarkdownEditor extends Component<{}, MarkdownEditorState> {
 
     public render(): ReactNode {
         return (
-            <>
-                <SiteNavbar />
+            <PageContainer withNavSpacer={false}>
                 <div className={styles.editor}>
                     <div className={styles.col50}>
                         <AceEditor
                             mode="markdown"
-                            theme="monokai"
+                            theme="clouds"
                             onChange={this.onChange}
                             value={this.state.data}
                             fontSize={'18px'}
@@ -39,9 +38,9 @@ export class MarkdownEditor extends Component<{}, MarkdownEditorState> {
                             wrapEnabled={true}
                         />
                     </div>
-                    <div className={styles.col50}>{Markdown.compiler(this.state.data)}</div>
+                    <div className={styles.col50 + ' ' + styles.outputArea}>{Markdown.compiler(this.state.data)}</div>
                 </div>
-            </>
+            </PageContainer>
         );
     }
 

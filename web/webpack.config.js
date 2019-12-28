@@ -10,7 +10,7 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, '/dist'),
-        filename: 'bundle.min.js',
+        filename: '[name].[contenthash].js',
     },
     devServer: {
         historyApiFallback: true,
@@ -47,7 +47,7 @@ module.exports = {
             },
 
             {
-                test: /\.(png|svg|jpg|gif)$/,
+                test: /\.(png|svg|jpg|gif|gltf)$/,
                 use: ['file-loader'],
             },
             {

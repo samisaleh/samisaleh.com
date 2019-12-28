@@ -11,6 +11,11 @@
     height: 100%;
     width: 50vw;
   }
+
+  .output-area {
+    border-left: $main-border-thickness solid $main-border-color;
+    padding: $padding-1;
+  }
 }
 
 @media all and (max-width: 736px) {

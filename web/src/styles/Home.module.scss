@@ -15,6 +15,19 @@
   }
 }
 
+.home-item {
+
+}
+
+@media all and (max-width: 736px) {
+  .home-item{
+    text-align: center;
+    > div {
+      align-items: center;
+    }
+  }
+}
+
 .home-panel-image {
   -webkit-filter: hue-rotate(90deg);
   filter: invert(100%);
