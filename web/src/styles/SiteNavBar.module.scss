@@ -1,0 +1,14 @@
+@import "variables";
+
+.site-nav-bar {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background: #ffffff;
+  height: $nav-height;
+  border-bottom: 3px solid #a333c8;
+
+  .item {
+    margin-right: 15px;
+  }
+}

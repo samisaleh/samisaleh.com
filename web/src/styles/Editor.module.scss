@@ -1,0 +1,23 @@
+@import 'variables';
+
+.editor {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  height: calc(100% - #{$nav-height});
+  overflow: hidden;
+
+  .col-50 {
+    height: 100%;
+    width: 50vw;
+  }
+}
+
+@media all and (max-width: 736px) {
+  .editor{
+    overflow: auto;
+    .col-50 {
+      width: 100vw;
+    }
+  }
+}

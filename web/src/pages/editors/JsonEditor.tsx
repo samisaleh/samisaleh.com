@@ -1,30 +1,26 @@
-import * as React from 'react';
+import React from 'react';
 import { Component } from 'react';
 import AceEditor from 'react-ace';
-
-import 'brace/mode/json';
-import 'brace/theme/monokai';
+import 'ace-builds/webpack-resolver';
+import 'ace-builds/src-noconflict/mode-json';
+import 'ace-builds/src-noconflict/theme-monokai';
 import { Annotation } from 'react-ace/types';
-import { Toaster, Popover, Menu, Button, Position, IToaster } from '@blueprintjs/core';
-import { SiteContainer } from '../components/SiteContainer';
 import { ReactNode } from 'react';
-import { jsonSample } from '../snippets';
+import { jsonSample } from '../../snippets';
+import { SiteNavbar } from '../../components/SiteNavbar';
+import { Button, Dropdown } from 'semantic-ui-react';
+import { SemanticToastContainer, toast } from 'react-semantic-toasts';
+import 'react-semantic-toasts/styles/react-semantic-alert.css';
+import styles from '../../styles/Editor.module.scss';
 
 interface JsonEditorState {
     data: string;
 }
 
-const toaster: IToaster = Toaster.create(
-    {
-        canEscapeKeyClear: true,
-    },
-    document.body,
-);
-
 const tabWidth = 4;
 const ZERO = 0;
 
-export default class JsonEditor extends Component<{}, JsonEditorState> {
+export class JsonEditor extends Component<{}, JsonEditorState> {
     public state: JsonEditorState = {
         data: jsonSample,
     };
@@ -34,9 +30,12 @@ export default class JsonEditor extends Component<{}, JsonEditorState> {
 
     public render(): ReactNode {
         return (
-            <SiteContainer navActions={this.actionMenu()}>
-                <div className={'editor--fullsize'}>
+            <>
+                <SemanticToastContainer position={'top-center'} />
+                <SiteNavbar navActions={this.actionMenu()} />
+                <div className={styles.editor}>
                     <AceEditor
+                        name={'json-editor'}
                         mode="json"
                         theme="monokai"
                         onChange={this.onChange}
@@ -49,23 +48,24 @@ export default class JsonEditor extends Component<{}, JsonEditorState> {
                         wrapEnabled={true}
                     />
                 </div>
-            </SiteContainer>
+            </>
         );
     }
 
     private checkErrors = (): boolean => {
         if (this.errors.length !== ZERO || !this.currentData) {
             const isEmpty = !this.currentData && 'Please enter some JSON!';
-            toaster.show({
-                message:
+            toast({
+                description:
                     isEmpty ||
                     this.errors
                         .map((error): string => {
                             return `${error.row}:${error.column} - ${error.text}`;
                         })
                         .join('\n'),
-                intent: 'danger',
-                timeout: 1000,
+                time: 2000,
+                title: 'Error',
+                type: 'error',
             });
             return true;
         }
@@ -93,9 +93,7 @@ export default class JsonEditor extends Component<{}, JsonEditorState> {
         this.currentData = data;
     };
 
-    // eslint-disable-next-line
     private sortKeys = (data: any): object => {
-        // eslint-disable-next-line
         const newObj: any = {};
         const sortedKeys = Object.keys(data).sort((a, b): number => {
             return a.localeCompare(b);
@@ -135,17 +133,16 @@ export default class JsonEditor extends Component<{}, JsonEditorState> {
     };
 
     private actionMenu = (): ReactNode => (
-        <Popover
-            content={
-                <Menu>
-                    <Menu.Item onClick={this.minifyData} text="Minify" />
-                    <Menu.Item onClick={this.prettyData} text="Pretty print" />
-                    <Menu.Item onClick={this.sortKeysRecursive} text="Sort keys" />
-                </Menu>
-            }
-            position={Position.RIGHT}
-        >
-            <Button intent={'primary'} text="Format JSON" />
-        </Popover>
+        <Button.Group color="pink">
+            <Dropdown
+                className={'button'}
+                text={'Actions'}
+                options={[
+                    { key: 'minify', text: 'Minify', value: 'minify', onClick: this.minifyData },
+                    { key: 'pretty', text: 'Pretty print', value: 'pretty', onClick: this.prettyData },
+                    { key: 'sort-keys', text: 'Sort keys', value: 'sort-keys', onClick: this.sortKeysRecursive },
+                ]}
+            />
+        </Button.Group>
     );
 }

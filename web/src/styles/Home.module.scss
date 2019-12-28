@@ -1,0 +1,38 @@
+.home-banner {
+  align-items: center;
+  background: linear-gradient(98deg, #3accd2, #a333c8);
+  background-size: 400% 400%;
+  -webkit-animation: Bannermation 15s ease infinite;
+  -moz-animation: Bannermation 15s ease infinite;
+  animation: Bannermation 15s ease infinite;
+  display: flex;
+  min-height: 200px;
+  justify-content: center;
+  text-align: center;
+
+  h1 {
+    color: white;
+  }
+}
+
+.home-panel-image {
+  -webkit-filter: hue-rotate(90deg);
+  filter: invert(100%);
+  background-color: #806127 !important;
+}
+
+@-webkit-keyframes Bannermation {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@-moz-keyframes Bannermation {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+@keyframes Bannermation {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
