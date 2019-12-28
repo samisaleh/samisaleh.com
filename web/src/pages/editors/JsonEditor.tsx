@@ -1,9 +1,9 @@
 import React from 'react';
 import { Component } from 'react';
 import AceEditor from 'react-ace';
-import 'ace-builds/webpack-resolver';
-import 'ace-builds/src-noconflict/mode-json';
-import 'ace-builds/src-noconflict/theme-monokai';
+import 'brace/mode/json';
+import 'brace/theme/monokai';
+import 'brace/ext/searchbox';
 import { Annotation } from 'react-ace/types';
 import { ReactNode } from 'react';
 import { jsonSample } from '../../snippets';

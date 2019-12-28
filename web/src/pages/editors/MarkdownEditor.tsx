@@ -6,9 +6,9 @@ import * as Markdown from 'markdown-to-jsx';
 import '../../styles/markdown.css';
 import styles from '../../styles/Editor.module.scss';
 
-import 'ace-builds/webpack-resolver';
-import 'ace-builds/src-noconflict/mode-markdown';
-import 'ace-builds/src-noconflict/theme-monokai';
+import 'brace/mode/markdown';
+import 'brace/theme/monokai';
+import 'brace/ext/searchbox';
 import { markdownSample } from '../../snippets';
 import { SiteNavbar } from '../../components/SiteNavbar';
 
