@@ -1,17 +1,21 @@
 import { PageDetails } from '../../interfaces';
+import { MarkdownEditor } from './MarkdownEditor';
+import { JsonEditor } from './JsonEditor';
 
-export const editors: PageDetails[] = [
+export const editorPages: PageDetails[] = [
     {
+        component: MarkdownEditor,
         description: 'A split view Markdown editor which will render content as you type',
         icon: 'code',
-        path: '/markdown-editor',
-        title: 'Markdown Editor',
+        path: '/editors/markdown',
+        title: 'Markdown',
     },
     {
+        component: JsonEditor,
         description: 'A simple JSON editor with minification and pretty options',
         icon: 'code',
-        path: '/json-editor',
-        title: 'JSON Editor',
+        path: '/editors/json',
+        title: 'JSON',
     },
 ];
 

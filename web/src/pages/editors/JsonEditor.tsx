@@ -11,7 +11,7 @@ import { Button, Dropdown } from 'semantic-ui-react';
 import { SemanticToastContainer, toast } from 'react-semantic-toasts';
 import 'react-semantic-toasts/styles/react-semantic-alert.css';
 import styles from '../../styles/Editor.module.scss';
-import { PageContainer } from '../../components';
+import { SiteContainer } from '../../components';
 
 interface JsonEditorState {
     data: string;
@@ -30,7 +30,7 @@ export class JsonEditor extends Component<{}, JsonEditorState> {
 
     public render(): ReactNode {
         return (
-            <PageContainer navActions={this.actionMenu()} withNavSpacer={false}>
+            <SiteContainer navActions={this.actionMenu()}>
                 <SemanticToastContainer position={'top-center'} />
                 <div className={styles.editor}>
                     <AceEditor
@@ -47,7 +47,7 @@ export class JsonEditor extends Component<{}, JsonEditorState> {
                         wrapEnabled={true}
                     />
                 </div>
-            </PageContainer>
+            </SiteContainer>
         );
     }
 
@@ -78,7 +78,9 @@ export class JsonEditor extends Component<{}, JsonEditorState> {
             this.setState({
                 data: JSON.stringify(parsedData, null, pretty ? tabWidth : ZERO),
             });
-        } catch (err) {}
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     private validate = (annotations: Annotation[]): void => {

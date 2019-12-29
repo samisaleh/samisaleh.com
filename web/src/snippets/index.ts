@@ -31,13 +31,3 @@ Type something **here** to get *started*!
 sample code block
 \`\`\`
 `);
-
-export const javascriptSample = trimmer(`
-// executes a function and returns your value - WIP
-
-const numbers = [4,1,2,3,4,1,5,6,1];
-
-return [...new Set(numbers)]
-              .sort((a,b) => a - b )
-              .map(num => 'Mapped number ' + num)
-`);

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Component, ReactNode } from 'react';
 import AceEditor from 'react-ace';
 
@@ -10,7 +10,7 @@ import 'brace/mode/markdown';
 import 'brace/theme/clouds';
 import 'brace/ext/searchbox';
 import { markdownSample } from '../../snippets';
-import { PageContainer } from '../../components';
+import { SiteContainer } from '../../components';
 
 interface MarkdownEditorState {
     data: string;
@@ -23,7 +23,7 @@ export class MarkdownEditor extends Component<{}, MarkdownEditorState> {
 
     public render(): ReactNode {
         return (
-            <PageContainer withNavSpacer={false}>
+            <SiteContainer>
                 <div className={styles.editor}>
                     <div className={styles.col50}>
                         <AceEditor
@@ -40,7 +40,7 @@ export class MarkdownEditor extends Component<{}, MarkdownEditorState> {
                     </div>
                     <div className={styles.col50 + ' ' + styles.outputArea}>{Markdown.compiler(this.state.data)}</div>
                 </div>
-            </PageContainer>
+            </SiteContainer>
         );
     }
 
