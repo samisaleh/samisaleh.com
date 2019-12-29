@@ -18,7 +18,7 @@ module.exports =  {
         ecmaVersion:  2018,
         jsx: true,
         sourceType:  'module',
-        project: "./tsconfig.linter.json"
+        project: "./tsconfig.json"
     },
     settings: {
         react: {

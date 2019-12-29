@@ -15,6 +15,7 @@
     "outDir": "./dist",
     "preserveConstEnums": true,
     "removeComments": true,
+    "rootDir": "src",
     "sourceMap": true,
     "strict": true,
     "target": "es6",
@@ -24,7 +25,7 @@
   },
   "exclude": [
     "node_modules",
-    "**/*.spec.ts"
+    "test"
   ],
   "include": [
     "src/**/*"
