@@ -1,0 +1,125 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Cloudfront/S3 for serving SamiSaleh.com
+
+Parameters:
+  CloudfrontDistributionAliases:
+    Description: CloudFront Aliases
+    Type: CommaDelimitedList
+    Default: www.samisaleh.com,samisaleh.com
+
+  CloudFrontDistributionPriceClass:
+    Description: Price class for the CloudFront distrubution (limits regions)
+    Type: String
+    AllowedValues:
+      # US - CANADA - EUROPE
+      - PriceClass_100
+      # US - CANADA - EUROPE - ASIA - MIDDLE EAST - AFRICA
+      - PriceClass_200
+      # All edge locations
+      - PriceClass_All
+    Default: PriceClass_100
+
+  CloudfrontDistributionViewerCertificateId:
+    Description: ACM Cert ID to use for the Aliases
+    Type: String
+    Default: 4ec20ca2-1871-4a10-919a-09ed7ba39248
+
+  ReactRoot:
+    Description: The default path for the main bundle
+    Type: String
+    Default: index.html
+
+Resources:
+  CloudFrontOriginAccessIdentity:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: !Ref AWS::StackName
+
+  CloudfrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Aliases: !Ref CloudfrontDistributionAliases
+        Comment: !Sub Cloudfront distribution for ${AWS::StackName}
+        CustomErrorResponses:
+          - ErrorCode: 403
+            ResponseCode: 200
+            ResponsePagePath: !Sub /${ReactRoot}
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          Compress: true
+          DefaultTTL: 3600
+          ForwardedValues:
+            Cookies:
+              Forward: none
+            QueryString: false
+          MaxTTL: 86400
+          MinTTL: 60
+          TargetOriginId: s3-website
+          ViewerProtocolPolicy : redirect-to-https
+        DefaultRootObject: !Ref ReactRoot
+        Enabled: true
+        HttpVersion: http2
+        Origins:
+          - Id: s3-website
+            DomainName: !GetAtt S3Bucket.DomainName
+            S3OriginConfig:
+              OriginAccessIdentity:
+                Fn::Sub: origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}
+        PriceClass: !Ref CloudFrontDistributionPriceClass
+        ViewerCertificate:
+          AcmCertificateArn: !Sub arn:aws:acm:${AWS::Region}:${AWS::AccountId}:certificate/${CloudfrontDistributionViewerCertificateId}
+          MinimumProtocolVersion: TLSv1.1_2016
+          SslSupportMethod: sni-only
+
+  S3Bucket:
+    Type: AWS::S3::Bucket
+
+  S3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref S3Bucket
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action: s3:GetObject
+            Resource:
+              - !Sub arn:aws:s3:::${S3Bucket}/*
+            Principal:
+              AWS: !Sub arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${CloudFrontOriginAccessIdentity}
+
+  ServiceAccount:
+    Type: AWS::IAM::User
+    Properties:
+      Policies:
+        - PolicyName: !Sub ${S3Bucket}-service-account
+          PolicyDocument:
+            Statement:
+              - Action: s3:*
+                Effect: Allow
+                Resource:
+                  - !Sub arn:aws:s3:::${S3Bucket}
+                  - !Sub arn:aws:s3:::${S3Bucket}/*
+
+  ServiceAccountCredentials:
+    Type: AWS::IAM::AccessKey
+    Properties:
+      UserName: !Ref ServiceAccount
+
+Outputs:
+  ServiceAccountAccessKey:
+    Description: Access key for uploading to S3
+    Value: !Ref ServiceAccountCredentials
+
+  ServiceAccountSecretKey:
+    Description: Secret key for uploading to S3
+    Value: !GetAtt ServiceAccountCredentials.SecretAccessKey
+
+  S3Bucket:
+    Description: Description
+    Value: !Ref S3Bucket
