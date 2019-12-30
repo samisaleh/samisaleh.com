@@ -10,16 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: build-deploy
+      - name: build
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
-      - run: |
+        run: |
           cd web
           npm install
           npm run build
-#      - run: npm test
-      - run: bash ./build/deploy-s3.sh
+#          npm test
+      - name: deploy
+        run: bash ./build/deploy-s3.sh
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
