@@ -29,6 +29,7 @@ aws s3 cp config.json s3://${WEB_BUCKET}/build/config.json \
 function join_by { local IFS="$1"; shift; echo "$*"; }
 
 FIVE_MINUTES_AGO=$(date --date='5 minutes ago' --utc +%FT%T.%3NZ)
+echo "Checking to see if any objects were created on or before ${FIVE_MINUTES_AGO}"
 
 STALE_ASSETS=$(aws s3api list-objects-v2 \
     --bucket ${WEB_BUCKET} \
@@ -45,7 +46,6 @@ if [[ -n ${STALE_ASSETS} ]];then
     done
 
     OBJECTS_JSON_ARRAY=$(join_by , ${KEYS_TO_REMOVE[@]})
-    echo ${OBJECTS_JSON_ARRAY} > arr.txt
     DELETE_JSON=$(echo "{\"Objects\":[${OBJECTS_JSON_ARRAY}]}" | sed -e 's/[ \t\r\n]//')
 
     echo "Removing "${#KEYS_TO_REMOVE[@]}" file(s) from S3"
