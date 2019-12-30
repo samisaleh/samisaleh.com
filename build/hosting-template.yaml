@@ -30,6 +30,11 @@ Parameters:
     Type: String
     Default: index.html
 
+  ServiceUserSecretKeyName:
+    Description: The secret key name for the S3 Service User account
+    Type: String
+    Default: SamiSalehDotComServiceUser
+
 Resources:
   CloudFrontOriginAccessIdentity:
     Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
@@ -111,15 +116,14 @@ Resources:
     Properties:
       UserName: !Ref ServiceAccount
 
+  ServiceAccountSecrets:
+    Type: 'AWS::SecretsManager::Secret'
+    Properties:
+      Name: !Ref ServiceUserSecretKeyName
+      Description: The service user credentials to manage files in S3
+      SecretString: !Sub '{"ACCESS_KEY":"${ServiceAccountCredentials}","SECRET_KEY":"${ServiceAccountCredentials.SecretAccessKey}"}'
+
 Outputs:
-  ServiceAccountAccessKey:
-    Description: Access key for uploading to S3
-    Value: !Ref ServiceAccountCredentials
-
-  ServiceAccountSecretKey:
-    Description: Secret key for uploading to S3
-    Value: !GetAtt ServiceAccountCredentials.SecretAccessKey
-
   S3Bucket:
     Description: Description
     Value: !Ref S3Bucket
