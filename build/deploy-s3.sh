@@ -33,7 +33,7 @@ echo "Checking to see if any objects were created on or before ${FIVE_MINUTES_AG
 
 STALE_ASSETS=$(aws s3api list-objects-v2 \
     --bucket ${WEB_BUCKET} \
-    --query 'Contents[?LastModified <= `$FIVE_MINUTES_AGO`].Key' \
+    --query 'Contents[?LastModified <= `'${FIVE_MINUTES_AGO}'`].Key' \
     --output text)
 
 if [[ -n ${STALE_ASSETS} ]];then
