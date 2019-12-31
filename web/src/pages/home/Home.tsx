@@ -1,30 +1,9 @@
 import React, { ReactElement } from 'react';
 import { Header, Item, Container, Icon, Grid, Label, Segment } from 'semantic-ui-react';
 import styles from '../../styles/Home.module.scss';
-import { SemanticCOLORS } from 'semantic-ui-react/dist/commonjs/generic';
 import { Link } from 'react-router-dom';
 import { pageGroups } from '../index';
 import { flatDeep } from '../../util';
-
-const availableColors: SemanticCOLORS[] = [
-    'red',
-    'orange',
-    'yellow',
-    'olive',
-    'green',
-    'teal',
-    'blue',
-    'violet',
-    'purple',
-    'pink',
-    'brown',
-    'grey',
-    'black',
-];
-
-const randomFill = function(): SemanticCOLORS {
-    return availableColors[Math.floor(Math.random() * availableColors.length)];
-};
 
 const pageGroupToItems = function(): ReactElement[][] {
     return flatDeep(
@@ -32,7 +11,7 @@ const pageGroupToItems = function(): ReactElement[][] {
             pages.map(page => (
                 <Item key={page.title + '-' + title}>
                     <Item.Image>
-                        <Icon key={page.title} bordered inverted color={randomFill()} name={page.icon} size={'huge'} />
+                        <Icon key={page.title} bordered inverted color={'purple'} name={page.icon} size={'huge'} />
                     </Item.Image>
                     <Item.Content>
                         <Item.Header as={'h1'}>

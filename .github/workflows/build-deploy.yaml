@@ -19,7 +19,7 @@ jobs:
           cd web
           npm install
           npm run build
-#          npm test
+          npm test
       - name: deploy
         run: bash ./build/deploy-s3.sh
         env:

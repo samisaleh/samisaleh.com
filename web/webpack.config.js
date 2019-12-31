@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-require-imports,@typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-require-imports,@typescript-eslint/no-var-requires,no-undef */
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -21,7 +21,7 @@ module.exports = {
         rules: [
             {
                 test: /\.tsx?$/,
-                loader: 'awesome-typescript-loader',
+                loader: 'awesome-typescript-loader?configFileName=./tsconfig.build.json',
             },
             {
                 test: /\.s?css$/,
