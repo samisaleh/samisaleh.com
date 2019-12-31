@@ -20,6 +20,7 @@
 
 @media all and (max-width: 736px) {
   .editor{
+    height: calc(100% - #{$nav-height});
     overflow: auto;
     .col-50 {
       width: 100vw;
