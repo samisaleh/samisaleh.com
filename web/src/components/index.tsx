@@ -1,3 +1,3 @@
 export * from './SiteContainer';
-export * from './ModelViewer';
+export { ModelViewer as default } from './ModelViewer';
 export * from './ModelViewerModal';

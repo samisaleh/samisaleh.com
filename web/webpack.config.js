@@ -4,18 +4,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-    entry: './src/index.tsx',
-    resolve: {
-        extensions: ['.ts', '.tsx', '.js'],
-    },
-    output: {
-        path: path.join(__dirname, '/dist'),
-        filename: '[name].[contenthash].js',
-        chunkFilename: '[name].[contenthash].chunk.js',
-        publicPath: '/',
-    },
     devServer: {
         historyApiFallback: true,
+    },
+    entry: {
+        main: './src/index.tsx',
     },
     module: {
         rules: [
@@ -50,29 +43,57 @@ module.exports = {
 
             {
                 test: /\.(png|svg|jpg|gif|gltf)$/,
-                use: ['file-loader'],
-            },
-            {
-                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
                 use: [
                     {
                         loader: 'file-loader',
                         options: {
                             name: '[name].[ext]',
-                            outputPath: 'fonts/',
+                            outputPath: 'assets/img',
+                        },
+                    },
+                ],
+            },
+            {
+                test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'assets/fonts/',
                         },
                     },
                 ],
             },
         ],
     },
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+        },
+    },
+    output: {
+        path: path.join(__dirname, '/dist'),
+        filename: '[name].[contenthash].js',
+        chunkFilename: '[name].[contenthash].chunk.js',
+        publicPath: '/',
+    },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src/index.html',
+            chunksSortMode: 'auto',
+            filename: 'index.html',
+            inject: 'body',
+            minify: {
+                collapseWhitespace: true,
+            },
+            template: path.resolve('./src/index.html'),
         }),
         new MiniCssExtractPlugin({
             filename: '[name].[hash].css',
             chunkFilename: '[id].[hash].css',
         }),
     ],
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js'],
+    },
 };
