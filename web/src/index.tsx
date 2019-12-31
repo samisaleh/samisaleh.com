@@ -5,6 +5,14 @@ import App from './App';
 
 import './styles/index.scss';
 
+import TagManager from 'react-gtm-module';
+
+const tagManagerArgs = {
+    gtmId: 'GTM-MT5MPGN',
+};
+
+TagManager.initialize(tagManagerArgs);
+
 render(
     <BrowserRouter>
         <App />
