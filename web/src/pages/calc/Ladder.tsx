@@ -3,19 +3,28 @@ import { SiteContainer } from '../../components';
 import { Grid, Header, Segment, Form } from 'semantic-ui-react';
 
 export const Ladder: FC = function(): ReactElement {
-    const [total, setTotal] = useState(0);
-    const calculateTotal = (event: ChangeEvent<HTMLInputElement>) => {
+    const [total, setTotal] = useState('0');
+
+    const calculateTotal = (event: ChangeEvent<HTMLInputElement>): void => {
+        const MAX_CALC_LENGTH = 7;
         const { value } = event.target;
-        let limit = Number(value),
-            total = 0;
-        if (Number.isNaN(limit) || limit <= 0) {
-            return setTotal(total);
+        let limit = parseInt(value, 10),
+            newTotal = 0;
+
+        if (value.trim() === '' || limit === 0) {
+            return setTotal('0');
+        }
+
+        const isUnsafe = Number.isNaN(limit) || limit <= 0 || Number(limit).toString().length > MAX_CALC_LENGTH;
+
+        if (isUnsafe) {
+            return setTotal(`We aren't going to allow that...`);
         }
         limit++;
         while (limit--) {
-            total += limit;
+            newTotal += limit;
         }
-        setTotal(total);
+        setTotal(String(newTotal));
     };
 
     return (
